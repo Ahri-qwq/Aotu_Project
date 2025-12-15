@@ -13,9 +13,7 @@ pip install -r requirements.txt
 
 2. **配置环境变量**
 在根目录创建 `.env` 文件，填入：
-
     MP_API_KEY=你的MP密钥
-
     DASHSCOPE_API_KEY=你的阿里云百炼密钥
 
 3. **运行下载**
