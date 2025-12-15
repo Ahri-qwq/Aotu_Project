@@ -8,11 +8,13 @@ from threading import Lock
 from mp_api.client import MPRester
 from pymatgen.electronic_structure.core import Spin
 from tqdm import tqdm
-
+#下面两行必须在from paths import BAND_DIR, MPID_FILE前
 project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(project_root)
-
 from paths import BAND_DIR, MPID_FILE
+
+from dotenv import load_dotenv  # 导入加载器
+load_dotenv(override=True) 
 
 # 日志配置
 logging.getLogger("mp_api").setLevel(logging.ERROR)

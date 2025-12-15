@@ -2,19 +2,19 @@ import os
 import sys
 from mp_api.client import MPRester
 from emmet.core.summary import HasProps
-
+#下面两行必须在from paths import BAND_DIR, MPID_FILE前
 project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(project_root)
-
 from paths import MPID_FILE 
 from mp_api.client import MPRester
 from emmet.core.summary import HasProps
 
+from dotenv import load_dotenv  # 导入加载器
+load_dotenv(override=True) 
+
 print(f"DEBUG: API Key is '{os.getenv('MP_API_KEY')}'") 
 
 mp_api_key = os.getenv('MP_API_KEY')
-# 或者直接在代码中设置（不推荐提交到版本控制）
-# mp_api_key = "your_api_key_here"
 
 with MPRester(mp_api_key) as mpr:
     print("正在查询具有能带数据的材料...")
