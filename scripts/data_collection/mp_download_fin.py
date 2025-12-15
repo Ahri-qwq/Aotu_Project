@@ -1,4 +1,5 @@
 import os
+import sys
 import json
 import logging
 from typing import List
@@ -7,6 +8,11 @@ from threading import Lock
 from mp_api.client import MPRester
 from pymatgen.electronic_structure.core import Spin
 from tqdm import tqdm
+
+project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append(project_root)
+
+from paths import BAND_DIR, MPID_FILE
 
 # 日志配置
 logging.getLogger("mp_api").setLevel(logging.ERROR)
@@ -19,7 +25,7 @@ if not mp_api_key:
 
 write_lock = Lock()
 
-def download_single_material_data(mp_id: str, output_dir: str = "./bandstructures") -> dict:
+def download_single_material_data(mp_id: str, output_dir: str = BAND_DIR) -> dict:
     """
     【优化版】同时下载能带数据 + 材料元数据 (Summary)
     逻辑：必须同时拥有元数据和能带数据才保存，否则过滤。
@@ -157,13 +163,13 @@ def batch_download_bandstructures(material_ids: List[str], max_workers: int = 10
 
 # ============ 执行部分 ============
 if __name__ == "__main__":
-    # 假设您的 ID 列表文件名为 mpids_with_bandstructure.txt
-    file_path = "mpids_with_bandstructure.txt"
-    if os.path.exists(file_path):
-        with open(file_path, "r") as f:
+    if os.path.exists(MPID_FILE):
+        with open(MPID_FILE, "r") as f:
             mpids = [line.strip() for line in f.readlines() if line.strip()]
-        
+        # 这里的 batch_download_bandstructures 内部调用了 download_single_material_data
+        # 而 download_single_material_data 默认使用了 BAND_DIR，所以不需要额外传参
+
         # 默认使用所有 ID，也可以切片测试 mpids[:100]
-        batch_download_bandstructures(mpids[:110], max_workers=10)
+        batch_download_bandstructures(mpids[:111], max_workers=10)
     else:
-        print(f"请准备 {file_path} 文件")
+        print(f"请准备 {MPID_FILE} 文件")
