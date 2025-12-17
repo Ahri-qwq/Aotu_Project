@@ -5,10 +5,9 @@ import time
 from http import HTTPStatus
 from dotenv import load_dotenv
 from dashscope import Generation
-# ===将项目根目录加入 Python 搜索路径 ===
+# ================= 路径配置 ================= 
 project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(project_root)
-# 导入统一路径配置
 from paths import BAND_DIR, CASE_DIR
 
 # ================= 配置区域 =================
